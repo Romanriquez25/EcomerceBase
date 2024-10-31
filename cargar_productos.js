@@ -24,10 +24,10 @@ const cargarProductos = async () => {
       console.log('Archivo CSV procesado exitosamente');
       try {
         for (const producto of productos) {
-          const { title, description, price, image } = producto;
+          const { title, description, price, image, stock } = producto;
           await pool.query(
-            'INSERT INTO productos (title, description, price, image) VALUES ($1, $2, $3, $4)',
-            [title, description, price, image]
+            'INSERT INTO productos (title, description, price, image, stock) VALUES ($1, $2, $3, $4, $5)',
+            [title, description, price, image, stock]
           );
         }
         console.log('Productos cargados exitosamente');

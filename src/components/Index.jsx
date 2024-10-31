@@ -1,8 +1,9 @@
+import Navbar from "../shared/Navbar";
+
+
 const Index = () => {
   return (
-    <div>
-      <h1>Bienvenido a mi E-commerce</h1>
-    </div>
+    <></>
   );
 };
 

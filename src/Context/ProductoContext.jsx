@@ -1,8 +1,6 @@
-// eslint-disable-next-line no-unused-vars
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const ProductoContext = createContext();
 
 export const ProductoProvider = ({ children }) => {
@@ -12,11 +10,21 @@ export const ProductoProvider = ({ children }) => {
     setCarrito((prevCarrito) => {
       const productoExistente = prevCarrito.find((item) => item.id === producto.id);
       if (productoExistente) {
-        return prevCarrito.map((item) =>
-          item.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
-        );
+        if (productoExistente.cantidad < producto.stock) {
+          return prevCarrito.map((item) =>
+            item.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
+          );
+        } else {
+          alert('No hay suficiente stock disponible');
+          return prevCarrito;
+        }
       } else {
-        return [...prevCarrito, { ...producto, cantidad: 1 }];
+        if (producto.stock > 0) {
+          return [...prevCarrito, { ...producto, cantidad: 1 }];
+        } else {
+          alert('Producto sin stock');
+          return prevCarrito;
+        }
       }
     });
   };
