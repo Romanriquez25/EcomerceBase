@@ -48,7 +48,13 @@ const CargarProductos = ({ token }) => {
       const productosConId = [];
       for (const producto of json) {
         try {
-          const response = await axios.post('http://localhost:3000/productos', producto, {
+          const response = await axios.post('http://localhost:3000/productos', {
+            title: producto.title,
+            description: producto.description,
+            price: producto.price,
+            image: producto.image,
+            stock: producto.stock,
+          }, {
             headers: { 'x-access-token': token },
           });
           productosConId.push(response.data);

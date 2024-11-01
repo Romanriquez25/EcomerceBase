@@ -9,8 +9,6 @@ const ProductCard = ({ producto }) => {
   const handleAgregarAlCarrito = () => {
     if (producto.stock > 0) {
       agregarAlCarrito(producto);
-    } else {
-      alert('Producto sin stock');
     }
   };
 
@@ -19,15 +17,25 @@ const ProductCard = ({ producto }) => {
       <img src={producto.image} alt={producto.title} className="w-full h-32 object-cover mb-2" />
       <h3 className="text-lg font-bold">{producto.title}</h3>
       <p>{producto.description}</p>
-      <p className="text-green-500">${producto.price}</p>
+      <p className="text-green-500">
+        {new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(producto.price)}
+      </p>
       <p className="text-red-500">Stock: {producto.stock}</p>
-      <button
-        className="text-green-500 hover:text-green-700"
-        onClick={handleAgregarAlCarrito}
-        disabled={producto.stock === 0}
-      >
-        <FaShoppingCart /> Agregar al Carrito
-      </button>
+      {producto.stock > 0 ? (
+        <button
+          className="text-green-500 hover:text-green-700"
+          onClick={handleAgregarAlCarrito}
+        >
+          <FaShoppingCart /> Agregar al Carrito
+        </button>
+      ) : (
+        <button
+          className="text-gray-500 cursor-not-allowed"
+          disabled
+        >
+          <FaShoppingCart /> Sin Stock
+        </button>
+      )}
     </div>
   );
 };

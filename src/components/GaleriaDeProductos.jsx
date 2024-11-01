@@ -37,38 +37,41 @@ const GaleriaDeProductos = () => {
   const indicePrimerProducto = indiceUltimoProducto - productosPorPagina;
   const productosActuales = productosFiltrados.slice(indicePrimerProducto, indiceUltimoProducto);
 
-  const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
-
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Galería de Productos</h2>
-      <div className="mb-4 flex items-center">
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          value={terminoBusqueda}
-          onChange={handleBusquedaChange}
-          className="border p-2 flex-grow"
-        />
-        <span className="ml-2">
-          <i className="fas fa-search"></i>
-        </span>
-      </div>
-      <div className="grid grid-cols-5 gap-4">
+      <input
+        type="text"
+        placeholder="Buscar productos..."
+        value={terminoBusqueda}
+        onChange={handleBusquedaChange}
+        className="mb-4 p-2 border border-gray-300 rounded"
+      />
+      <div className="grid grid-cols-4 gap-4">
         {productosActuales.map((producto) => (
-          <ProductCard key={producto.id} producto={producto} />
+          <ProductCard
+            key={producto.id}
+            producto={{
+              ...producto,
+              price: Number(producto.price), // Convertir price a número
+            }}
+          />
         ))}
       </div>
-      <div className="mt-4">
-        {Array.from({ length: totalPaginas }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => setPaginaActual(index + 1)}
-            className={`px-4 py-2 ${paginaActual === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-          >
-            {index + 1}
-          </button>
-        ))}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => setPaginaActual(paginaActual - 1)}
+          disabled={paginaActual === 1}
+          className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+        >
+          Anterior
+        </button>
+        <button
+          onClick={() => setPaginaActual(paginaActual + 1)}
+          disabled={indiceUltimoProducto >= productosFiltrados.length}
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );
